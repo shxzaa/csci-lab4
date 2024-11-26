@@ -1,0 +1,40 @@
+#include <iostream>     // Library for input and output operations
+#include <iomanip>      // Library to control output formatting
+
+// Function to print a floating-point number in fixed-point notation
+void print_real(float number, int fieldspace, int precision) {
+    // This function prints 'number' in fixed-point notation with specified field width and precision
+    std::cout << std::fixed << std::setw(fieldspace) << std::setprecision(precision) << number << std::endl;
+}
+
+// Template function to update the values of m1 and m2 using a default parameter for m3
+template <typename T>
+void update_scale(T &m1, T &m2, T m3 = 10) {
+    // 'm1' and 'm2' are passed by reference, so any changes will affect the original variables in main
+    T original_m1 = m1;  // Save original value of m1
+    T original_m2 = m2;  // Save original value of m2
+
+    // Calculate the new values for m1 and m2 based on the given formulas
+    m1 = (original_m1 + original_m2) * m3;   // Update m1: sum of original m1 and m2, then multiply by m3
+    m2 = (original_m1 - original_m2) * m3;   // Update m2: difference of original m1 and m2, then multiply by m3
+}
+
+int main() {
+    // Declare two floating-point numbers 'a' and 'b'
+    float a = 5.5, b = 2.5;
+
+    // Part (a): Test the print_real function
+    std::cout << "Printing the value of 'a' with field space 10 and precision 2:\n";
+    print_real(a, 10, 2);  // This will print 'a' with field space 10 and 2 decimal places
+
+    // Part (b): Test the update_scale function
+    std::cout << "Before update_scale:\n";
+    std::cout << "a = " << a << ", b = " << b << std::endl;
+
+    update_scale(a, b);  // Call the update_scale function to modify 'a' and 'b'
+
+    std::cout << "After update_scale:\n";
+    std::cout << "a = " << a << ", b = " << b << std::endl;
+
+    return 0;
+}
