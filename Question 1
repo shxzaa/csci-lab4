@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+#define MAX_LINE_LENGTH 100
+
+// Function to check if a string represents a valid float
+int isValidFloat(char *str) {
+    char *endptr;
+    strtof(str, &endptr);  // Convert string to float
+    return *endptr == '\0';  // If endptr points to the end of the string, it's valid
+}
+
+int main() {
+    FILE *sourceFile, *outputFile;
+    char line[MAX_LINE_LENGTH];
+    int invalidCount = 0;
+
+    // Open the source file for reading
+    sourceFile = fopen("data.txt", "r");
+    if (sourceFile == NULL) {
+        perror("Error opening source file");
+        return 1;
+    }
+
+    // Open the output file for writing
+    outputFile = fopen("valid_data.txt", "w");
+    if (outputFile == NULL) {
+        perror("Error opening output file");
+        fclose(sourceFile);
+        return 1;
+    }
+
+    // Read the source file line by line
+    while (fgets(line, sizeof(line), sourceFile) != NULL) {
+        char *ptr = line;
+        // Attempt to process the line and convert to float
+        if (isValidFloat(ptr)) {
+            fprintf(outputFile, "%s", line);  // Write the valid float to the output file
+        } else {
+            invalidCount++;  // Increment invalid count if the value is not a valid float
+        }
+    }
+
+    // Close both files
+    fclose(sourceFile);
+    fclose(outputFile);
+
+    // Print the number of invalid float values found
+    printf("Invalid float values found: %d\n", invalidCount);
+
+    return 0;
+}
